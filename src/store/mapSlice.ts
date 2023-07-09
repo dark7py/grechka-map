@@ -9,7 +9,7 @@ type MapObjectsType = {
 
 const initialState: MapObjectsType = {
   mapObjects: [],
-  coordinates: [1, 2],
+  coordinates: [],
   isLoading: true,
 };
 

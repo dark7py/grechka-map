@@ -26,9 +26,7 @@ const Map = ({isEditMode}: TProps) => {
   const dispatch = useAppDispatch();
 
   const handleMapClick = (event) => {
-    console.log(event.latlng);
     const {lat, lng} = event.latlng;
-    // setClickedPoint([lat, lng]);
     dispatch(setCoordinates([lat, lng]));
   };
 
