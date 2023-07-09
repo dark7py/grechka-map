@@ -56,14 +56,14 @@ export const Sidebar = ({setIsSidebarOpen}: TProps) => {
 
 
   const handleAddClick = () => {
-    if (header && description && coordinates) {
+    if (header && description && !!coordinates.length) {
       const newMapObject: MapObjectType = {
         header: header.name,
         description: description.name,
         coordinates: coordinates,
       }
       dispatch(addMapObject(newMapObject))
-      dispatch(setCoordinates(null))
+      dispatch(setCoordinates([]))
       setIsSidebarOpen(false);
     } else {
       setIsError(true);
@@ -80,29 +80,33 @@ export const Sidebar = ({setIsSidebarOpen}: TProps) => {
 
   return (
     <div className={s.sidebar}>
-      <h1>Выберите адрес на карте</h1>
-      <div>Адрес: {address}</div>
-      <Autocomplete
-        value={header}
-        onChange={(event, newValue: OptionType) => {
-          setHeader(newValue)
-        }}
-        options={headerOptions}
-        getOptionLabel={headerOption => headerOption.name}
-        sx={{width: 300}}
-        renderInput={(params) => <TextField {...params} label="Заголовок"/>}
-      />
-      <Autocomplete
-        value={description}
-        onChange={(event, newValue: OptionType) => {
-          setDescription(newValue);
-        }}
-        options={descriptionOptions}
-        getOptionLabel={descriptionOption => descriptionOption.name}
-        sx={{width: 300}}
-        renderInput={(params) => <TextField {...params} label="Описание"/>}
-      />
-      <Button text='Добавить' handleClick={handleAddClick}/>
+      <h1 className={s.head}>Выберите адрес на карте</h1>
+      <div className={s.address}>Адрес: {address}</div>
+      <div className={s.buttons}>
+        <Autocomplete
+          value={header}
+          onChange={(event, newValue: OptionType) => {
+            setHeader(newValue)
+          }}
+          options={headerOptions}
+          getOptionLabel={headerOption => headerOption.name}
+          renderInput={(params) => <TextField {...params} label="Заголовок" variant="standard"/>}
+          className={s.select}
+        />
+        <Autocomplete
+          value={description}
+          onChange={(event, newValue: OptionType) => {
+            setDescription(newValue);
+          }}
+          options={descriptionOptions}
+          getOptionLabel={descriptionOption => descriptionOption.name}
+          renderInput={(params) => <TextField {...params} label="Описание" variant="standard"/>}
+          className={s.select}
+          ty
+        />
+      </div>
+      <Button text='Добавить' handleClick={handleAddClick} className={s.buttonAdd}/>
+
 
       <Snackbar open={isError} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>

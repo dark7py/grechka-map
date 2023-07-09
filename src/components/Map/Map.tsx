@@ -4,6 +4,7 @@ import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leafle
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {CoordinatesType} from "../../store/types";
 import {setCoordinates} from "../../store/mapSlice";
+import {Snackbar} from "@mui/material";
 
 
 const ClickEventHandler = ({handleMapClick}) => {
@@ -48,7 +49,16 @@ const Map = ({isEditMode}: TProps) => {
           </Popup>
         </Marker>
       ))}
-      {clickedPointCoordinates && <Marker position={clickedPointCoordinates}/>}
+      {!!clickedPointCoordinates.length && <Marker position={clickedPointCoordinates}/>}
+
+      <Snackbar
+        open={!mapObjects.length && !clickedPointCoordinates.length}
+        autoHideDuration={10}
+        // onClose={handleClose}
+        message="Метки не добавлены, добавьте первую!"
+        // action={action}
+        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+      />
     </MapContainer>
   );
 };

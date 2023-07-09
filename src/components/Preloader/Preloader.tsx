@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import s from "./Preloader.module.scss";
 
 export const Preloader = () => {
   const [progress, setProgress] = useState(0);
@@ -9,14 +10,13 @@ export const Preloader = () => {
         const newProgress = prevProgress + 10;
         return newProgress <= 100 ? newProgress : prevProgress;
       });
-    }, 500);
+    }, 100);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div>
-      {/* Разместите код для отображения прогресса загрузки */}
+    <div className={s.preloader}>
       Loading... {progress}%
     </div>
   );

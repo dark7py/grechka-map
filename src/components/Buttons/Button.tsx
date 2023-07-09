@@ -6,9 +6,9 @@ type TProps = {
   className?: string;
 };
 
-export const Button = ({text, handleClick}: TProps) => {
+export const Button = ({text, handleClick, className}: TProps) => {
   return (
-    <button className={s.button} onClick={handleClick}>
+    <button className={`${className} ${s.button}`} onClick={handleClick}>
       {text}
     </button>
   )
