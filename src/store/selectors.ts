@@ -1,3 +1,3 @@
-import {AppState} from "./types";
+import { AppState } from './types';
 
-export const coordinatesSelector = (state: AppState) => state.map.coordinates
+export const coordinatesSelector = (state: AppState) => state.map.coordinates;

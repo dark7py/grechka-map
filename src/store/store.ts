@@ -1,4 +1,4 @@
-import {configureStore, combineReducers} from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -9,8 +9,8 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-import {mapObjectReducer} from './mapSlice';
+} from 'redux-persist';
+import { mapObjectReducer } from './mapSlice';
 
 const persistConfig = {
   key: 'root',
@@ -19,13 +19,13 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   map: mapObjectReducer,
-})
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -33,4 +33,4 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);

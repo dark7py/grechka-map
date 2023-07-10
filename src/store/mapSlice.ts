@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {AppState, CoordinatesType, MapObjectType} from "./types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CoordinatesType, MapObjectType } from './types';
 
 type MapObjectsType = {
   mapObjects: MapObjectType[];
@@ -20,14 +20,18 @@ const mapObjectsSlice = createSlice({
     setMapObjects: (state: MapObjectsType, action) => {
       state.mapObjects = action.payload;
     },
-    addMapObject: (state: MapObjectsType, action: PayloadAction<MapObjectType>) => {
+    addMapObject: (
+      state: MapObjectsType,
+      action: PayloadAction<MapObjectType>
+    ) => {
       state.mapObjects.push(action.payload);
     },
     setCoordinates: (state: MapObjectsType, action) => {
       state.coordinates = action.payload;
-    }
+    },
   },
 });
 
-export const {setMapObjects, addMapObject, setCoordinates} = mapObjectsSlice.actions
+export const { setMapObjects, addMapObject, setCoordinates } =
+  mapObjectsSlice.actions;
 export const mapObjectReducer = mapObjectsSlice.reducer;

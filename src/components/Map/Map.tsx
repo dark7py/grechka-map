@@ -1,13 +1,15 @@
-import {useState} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from 'react-leaflet';
+import { Snackbar } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setCoordinates } from '../../store/mapSlice';
 
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {CoordinatesType} from "../../store/types";
-import {setCoordinates} from "../../store/mapSlice";
-import {Snackbar} from "@mui/material";
-
-
-const ClickEventHandler = ({handleMapClick}) => {
+const ClickEventHandler = ({ handleMapClick }) => {
   useMapEvents({
     click: handleMapClick,
   });
@@ -17,17 +19,17 @@ const ClickEventHandler = ({handleMapClick}) => {
 
 type TProps = {
   isEditMode: boolean;
-}
+};
 
-const Map = ({isEditMode}: TProps) => {
-  // const [markers, setMarkers] = useState<TLatLng[]>([]);
-  // const [clickedPoint, setClickedPoint] = useState<CoordinatesType>(null);
+const Map = ({ isEditMode }: TProps) => {
   const mapObjects = useAppSelector(state => state.map.mapObjects);
-  const clickedPointCoordinates = useAppSelector(state => state.map.coordinates);
+  const clickedPointCoordinates = useAppSelector(
+    state => state.map.coordinates
+  );
   const dispatch = useAppDispatch();
 
-  const handleMapClick = (event) => {
-    const {lat, lng} = event.latlng;
+  const handleMapClick = (event: { latlng: { lat: number; lng: number } }) => {
+    const { lat, lng } = event.latlng;
     dispatch(setCoordinates([lat, lng]));
   };
 
@@ -35,12 +37,12 @@ const Map = ({isEditMode}: TProps) => {
     <MapContainer
       center={[51.505, -0.09]}
       zoom={13}
-      style={{height: '100vh', width: '100vw'}}
-      // onClick={handleMapClick}
+      style={{ height: '100vh', width: '100vw' }}
+      onClick={handleMapClick}
       dragging={true}
     >
-      {isEditMode && <ClickEventHandler handleMapClick={handleMapClick}/>}
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+      {isEditMode && <ClickEventHandler handleMapClick={handleMapClick} />}
+      <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
       {mapObjects.map((object, index) => (
         <Marker key={index} position={object.coordinates}>
           <Popup>
@@ -49,15 +51,17 @@ const Map = ({isEditMode}: TProps) => {
           </Popup>
         </Marker>
       ))}
-      {!!clickedPointCoordinates.length && <Marker position={clickedPointCoordinates}/>}
+      {!!clickedPointCoordinates.length && (
+        <Marker position={clickedPointCoordinates} />
+      )}
 
       <Snackbar
         open={!mapObjects.length && !clickedPointCoordinates.length}
         autoHideDuration={10}
         // onClose={handleClose}
-        message="Метки не добавлены, добавьте первую!"
+        message='Метки не добавлены, добавьте первую!'
         // action={action}
-        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       />
     </MapContainer>
   );
